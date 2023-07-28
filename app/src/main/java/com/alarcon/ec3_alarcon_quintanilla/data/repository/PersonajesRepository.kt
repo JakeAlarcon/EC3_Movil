@@ -7,6 +7,6 @@ class PersonajesRepository {
 
     suspend fun getPersonajes(): List<Personajes>{
         val response = RetrofitHelper.genshinInstance.getAllPersonajes()
-        return response.personajes
+        return response.results
     }
 }

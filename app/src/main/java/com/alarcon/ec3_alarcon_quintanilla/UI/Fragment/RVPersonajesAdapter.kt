@@ -28,11 +28,6 @@ class PersonajeVH(private  val binding: ItemPersonajesBinding): RecyclerView.Vie
         binding.txtVision.text = personajes.vision
         binding.txtWeapon.text = personajes.weapon
 
-        if (personajes.isFavorite){
-            binding.btnFavorite.setImageResource(R.drawable.ic_favorite_red)
-        }else{
-            binding.btnFavorite.setImageResource(R.drawable.ic_favorite2)
-        }
     }
 
 }

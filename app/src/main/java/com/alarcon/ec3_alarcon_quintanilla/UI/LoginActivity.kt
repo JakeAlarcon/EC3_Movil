@@ -15,25 +15,37 @@ class LoginActivity : AppCompatActivity() {
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        binding.btnLogin.setOnClickListener {
+            val email = binding.tilEmail.editText?.text.toString()
+            val password = binding.tilPassword.editText?.text.toString()
+
+            if (validateEmailPass(email, password)) {
+                val intent = Intent(this, BarActivity::class.java)
+                startActivity(intent)
+                Toast.makeText(this, "Ingreso exitoso", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(this, "email/password incorrectas", Toast.LENGTH_SHORT).show()
+            }
+        }
+
         binding.tilEmail.editText?.addTextChangedListener { text ->
-            binding.btnLogin.isEnabled = validateEmailPassword(text.toString(),binding.tilPassword.editText?.text.toString())
+            validateInputs()
         }
         binding.tilPassword.editText?.addTextChangedListener { text ->
-            binding.btnLogin.isEnabled = validateEmailPassword(binding.tilEmail.editText?.text.toString(), text.toString())
+            validateInputs()
         }
-
-        binding.btnLogin.setOnClickListener {
-
-            val intent = Intent(this, BarActivity::class.java)
-            Toast.makeText(this,"Bienvenido al Nuevo Mundo ", Toast.LENGTH_SHORT).show()
-            startActivity(intent)
-            finish()
-        }
-
     }
-    private fun validateEmailPassword(email:String, password:String): Boolean {
-        val validateEmail = email.isNotEmpty() && Patterns.EMAIL_ADDRESS.matcher(email).matches() && email == "ejemplo@idat.edu.pe"
-        val validatePassword = password.isNotEmpty() && password == "123456"
-        return validateEmail && validatePassword
+
+    private fun validateInputs() {
+        val email = binding.tilEmail.editText?.text.toString()
+        val password = binding.tilPassword.editText?.text.toString()
+        val isEmailValid = Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        val isPasswordValid = password.length >= 6
+
+        binding.btnLogin.isEnabled = isEmailValid && isPasswordValid
+    }
+
+    private fun validateEmailPass(email: String, password: String): Boolean {
+        return email == "ejemplo@idat.edu.pe" && password == "123456"
     }
 }
